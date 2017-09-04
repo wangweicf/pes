@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.support.MessageSupport;
+import com.thread.content.ContentHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolation;
@@ -26,6 +27,10 @@ public  class BaseController {
 			}
 			throw new IllegalArgumentException(sb.toString());
 		}
+	}
+
+	public Integer getCurrentUser(){
+		return ContentHolder.getUserIdContent();
 	}
 
 }

@@ -31,7 +31,7 @@
  	<!--<import resource="classpath:com/config/timer.xml" />-->
 
 	<bean id="cacheManagerFactory"  class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="/cache/ehcache.xml"></property>
+		<property name="configLocation" value="classpath:cache/ehcache.xml"></property>
 	</bean>
 
 	<!-- 声明cacheManager -->

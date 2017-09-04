@@ -11,8 +11,8 @@ public class ContentHolder {
         userIdContent.set(userId);
     }
 
-    public static void getUserIdContent(){
-        userIdContent.get();
+    public static Integer getUserIdContent(){
+        return userIdContent.get();
     }
 
 }

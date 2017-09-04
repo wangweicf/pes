@@ -1,10 +1,13 @@
 package com.controller;
 
 import com.dao.CompanyMapper;
+import com.enums.ActionType;
 import com.enums.ReturnEnum;
+import com.enums.UrType;
 import com.google.common.collect.Maps;
 import com.model.Company;
 import com.result.BaseResult;
+import com.trace.TraceLogFactory;
 import com.utils.PhoneUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -45,7 +49,10 @@ public class CompanyController extends  BaseController{
 		Map errorMap = Maps.newHashMap();
 		try{
 			validForm(errorMap,company);
-			companyMapper.insert(company);
+			if(getCurrentUser().intValue() != company.getId()){
+				throw new IllegalArgumentException("请重新登录并修改，谢谢！");
+			}
+			companyMapper.updateByPrimaryKey(company);
 		}catch (DuplicateKeyException e){
 			Logger.getLogger(this.getClass().getName()).error(String.format("createCompany DuplicateKeyException error!"),e);
 			BaseResult.makeErrorResut(ReturnEnum.UK_ERROR,null).toMap();
@@ -81,13 +88,9 @@ public class CompanyController extends  BaseController{
 			}else{
 				errorMap.put("messageValidCode","电话号码格式错误！");
 			}
-			Company company = new Company();
-			company.setTel(tel);
-			company.setUserName(tel);
-			company.setPassword(password);
-			//TODO 剩余字段需要补齐
-
+			Company company = new Company(tel,password,tel);
 			companyMapper.insert(company);
+			TraceLogFactory.pushTraceLog(ActionType.COMPANY_REGISTER.getCode(),new Date(),getCurrentUser(), UrType.COMPANY.getCode(),ActionType.COMPANY_REGISTER.getDc());
 			BaseResult.makeResut(company).toMap();
 		}catch (DuplicateKeyException e){
 			Logger.getLogger(this.getClass().getName()).error(String.format("createCompany DuplicateKeyException error!"),e);
