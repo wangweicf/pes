@@ -24,7 +24,18 @@
 			<bean class="java.util.concurrent.ThreadPoolExecutor$AbortPolicy" />
 		</property>
 	</bean>
-	
- 	<!--<import resource="classpath:com/config/sql/dataSource.xml" />-->
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<!--<import resource="classpath:com/config/sql/dataSource.xml" />-->
  	<!--<import resource="classpath:com/config/timer.xml" />-->
+
+	<bean id="cacheManagerFactory"  class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="/cache/ehcache.xml"></property>
+	</bean>
+
+	<!-- 声明cacheManager -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="cacheManagerFactory"></property>
+	</bean>
 </beans>

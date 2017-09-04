@@ -1,0 +1,7 @@
+<ehcache>
+
+    <defaultCache maxElementsInMemory="10000" eternal="false"   timeToLiveSeconds="300" />
+
+    <cache name="messageValidCode" maxElementsInMemory="10000"  eternal="false"  timeToLiveSeconds="60" />
+
+</ehcache>
