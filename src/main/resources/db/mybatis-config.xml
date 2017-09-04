@@ -3,4 +3,5 @@
 <sqlMapConfig>
 	<settings enhancementEnabled="true" maxTransactions="40" maxRequests="32" maxSessions="10" defaultStatementTimeout="120" useStatementNamespaces="true"/>
 	<sqlMap resource="sql/CompanyMapper.xml"/>
+	<sqlMap resource="sql/TraceLogMapper.xml"/>
 </sqlMapConfig>

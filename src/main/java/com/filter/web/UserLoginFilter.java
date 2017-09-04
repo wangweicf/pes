@@ -29,9 +29,9 @@ public class UserLoginFilter implements Filter {
 
         Integer userId = (Integer) session.getAttribute(ST.SESSION_KEY);
 
-        if(userId == null){
-            res.sendRedirect(ST.LOGIN_URL);
-        }
+//        if(userId == null){
+//            res.sendRedirect(ST.LOGIN_URL);
+//        }
 
         filterChain.doFilter(servletRequest,servletResponse);
 

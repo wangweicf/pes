@@ -19,20 +19,27 @@ public class TraceLogFactory {
 
     public static void init(TraceLogMapper traceLogMapperII){
         traceLogMapper = traceLogMapperII;
-        try {
-            while(!Thread.interrupted()){
-                final TraceLog traceLog = queue.take();
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        traceLogMapper.insert(traceLog);
-                    }
-                });
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(!Thread.interrupted()){
+                        final TraceLog traceLog = queue.take();
+                        executor.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                traceLogMapper.insert(traceLog);
+                            }
+                        });
+
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        }).start();
+
     }
 
     public static void pushTraceLog(String traceType, Date actionDate, Integer userId, String userType, String content){
